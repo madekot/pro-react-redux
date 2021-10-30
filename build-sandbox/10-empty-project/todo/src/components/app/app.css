@@ -1,0 +1,18 @@
+.todo-app {
+  margin: 2rem auto 0 auto;
+  max-width: 400px;
+}
+
+.top-panel {
+  display: flex;
+  flex-wrap: wrap;
+  margin: 1rem 0;
+}
+
+.top-panel .form-control {
+  margin-bottom: 10px;
+}
+
+.todo-app .filter-button-toggle-importance {
+  margin-left: 10px;
+}
