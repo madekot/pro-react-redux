@@ -1,16 +1,13 @@
+// @ts-nocheck
 import React, { Component } from 'react';
 
-import Header from '../header';
-import RandomPlanet from '../random-planet';
-import ErrorButton from '../error-button/error-button';
-import ErrorIndicator from '../error-indicator/error-indicator';
-import PeoplePage from '../people-page/people-page';
-
 import './app.css';
+import Header from '../header';
+import ErrorIndicator from '../error-indicator/error-indicator';
 import SwapiService from '../../services/swapi-service';
 import Row from '../row';
 import ErrorBoundry from '../error-boundry';
-import ItemDetails from '../Item-details';
+import ItemDetails, { Record } from '../Item-details/item-details';
 
 export default class App extends Component {
   
@@ -40,24 +37,37 @@ export default class App extends Component {
   }
   
   render() {
+    const {
+      getPerson, 
+      getStarship,
+      getPersonImage,
+      getStarshipImage,
+    } = this.swapiService;
+
     if (this.state.hasRenderError) {
       return <ErrorIndicator />
     }
-
-    const {getPerson, getStarship} = this.swapiService;
 
     const persenDetails = (
       <ItemDetails 
         itemId="11"
         getData={getPerson}
-        getImageUrl={() => {}} />
+        getImageUrl={getPersonImage}>              
+        <Record field={"gender"} label={"Gender:"} />
+        <Record field={"birthYear"} label={"Birth Year:"} />
+        <Record field={"eyeColor"} label={"Eye Color:"} />
+      </ItemDetails>
     )
 
     const starhipDetails = (
       <ItemDetails 
         itemId="5"
         getData={getStarship}
-        getImageUrl={() => {}} />
+        getImageUrl={getStarshipImage}>
+          <Record field={"model"} label={"Model:"} />
+          <Record field={"length"} label={"Length:"} />
+          <Record field={"costInCredits"} label={"Cost:"} />          
+      </ItemDetails>
     )
     
     return (
