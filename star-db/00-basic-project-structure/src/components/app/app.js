@@ -1,17 +1,29 @@
-// @ts-nocheck
 import React, { Component } from 'react';
 
 import './app.css';
+
 import Header from '../header';
 import ErrorIndicator from '../error-indicator/error-indicator';
 import SwapiService from '../../services/swapi-service';
-import Row from '../row';
+import DummySwapiService from '../../services/dummy-swapi-service';
+
 import ErrorBoundry from '../error-boundry';
 import ItemDetails, { Record } from '../Item-details/item-details';
+import { SwapiServiceProvider } from '../swapi-servise-context';
+
+import {
+  PersonDetaild,
+  PlanetDetaild,
+  StarshipDetaild,
+  PersonList,
+  PlanetList,
+  StarshipList
+} from "../sw-components"
+
 
 export default class App extends Component {
   
-  swapiService = new SwapiService()
+  swapiService = new DummySwapiService()
 
   state = {
     showRandomPlanet: true,
@@ -53,9 +65,9 @@ export default class App extends Component {
         itemId="11"
         getData={getPerson}
         getImageUrl={getPersonImage}>              
-        <Record field={"gender"} label={"Gender:"} />
-        <Record field={"birthYear"} label={"Birth Year:"} />
-        <Record field={"eyeColor"} label={"Eye Color:"} />
+        <Record field={"gender"} label={"Gender:"} item={undefined} />
+        <Record field={"birthYear"} label={"Birth Year:"} item={undefined} />
+        <Record field={"eyeColor"} label={"Eye Color:"} item={undefined} />
       </ItemDetails>
     )
 
@@ -64,19 +76,28 @@ export default class App extends Component {
         itemId="5"
         getData={getStarship}
         getImageUrl={getStarshipImage}>
-          <Record field={"model"} label={"Model:"} />
-          <Record field={"length"} label={"Length:"} />
-          <Record field={"costInCredits"} label={"Cost:"} />          
+          <Record field={"model"} label={"Model:"} item={undefined} />
+          <Record field={"length"} label={"Length:"} item={undefined} />
+          <Record field={"costInCredits"} label={"Cost:"} item={undefined} />          
       </ItemDetails>
     )
-    
+
     return (
       <ErrorBoundry>
-        <Header />
-        <Row left={persenDetails} right={starhipDetails}/>
-        {/* <RandomPlanet /> */}
-        {/* <ErrorButton /> */}
-        {/* <PeoplePage /> */}
+        <SwapiServiceProvider value={this.swapiService}> 
+          <Header />
+
+          <PersonDetaild itemId={11}/>
+          <StarshipDetaild itemId={5}/>
+          <PlanetDetaild itemId={9}/>
+          
+          <PersonList />
+
+          <PlanetList />
+          
+          <StarshipList />
+        </SwapiServiceProvider>
+
       </ErrorBoundry>
     )
   };
