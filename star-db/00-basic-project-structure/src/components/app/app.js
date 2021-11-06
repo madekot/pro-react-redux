@@ -6,37 +6,31 @@ import Header from '../header';
 import ErrorIndicator from '../error-indicator/error-indicator';
 import SwapiService from '../../services/swapi-service';
 import DummySwapiService from '../../services/dummy-swapi-service';
-
 import ErrorBoundry from '../error-boundry';
-import ItemDetails, { Record } from '../Item-details/item-details';
 import { SwapiServiceProvider } from '../swapi-servise-context';
+import RandomPlanet from '../random-planet';
 
 import {
-  PersonDetaild,
-  PlanetDetaild,
-  StarshipDetaild,
-  PersonList,
-  PlanetList,
-  StarshipList
-} from "../sw-components"
-
+  PeoplePage,
+  PlanetsPage,
+  StarshipsPage,
+} from '../pages';
 
 export default class App extends Component {
   
-  swapiService = new DummySwapiService()
-
   state = {
-    showRandomPlanet: true,
     hasRenderError: false,
+    swapiService: new SwapiService()
   }
 
-  toggleRandomPlanet = () => {
-    this.setState((state) => {
+  onServiseChange = () => {
+    this.setState(({ swapiService }) => {
+      const Service = swapiService instanceof SwapiService ? DummySwapiService : SwapiService;
       return {
-        showRandomPlanet: !state.showRandomPlanet
-      }
+        swapiService: new Service(),
+      };
     });
-  };  
+  }
 
   onPersonSelected = (id) => {
     this.setState({
@@ -49,56 +43,28 @@ export default class App extends Component {
   }
   
   render() {
-    const {
-      getPerson, 
-      getStarship,
-      getPersonImage,
-      getStarshipImage,
-    } = this.swapiService;
-
     if (this.state.hasRenderError) {
       return <ErrorIndicator />
     }
 
-    const persenDetails = (
-      <ItemDetails 
-        itemId="11"
-        getData={getPerson}
-        getImageUrl={getPersonImage}>              
-        <Record field={"gender"} label={"Gender:"} item={undefined} />
-        <Record field={"birthYear"} label={"Birth Year:"} item={undefined} />
-        <Record field={"eyeColor"} label={"Eye Color:"} item={undefined} />
-      </ItemDetails>
-    )
-
-    const starhipDetails = (
-      <ItemDetails 
-        itemId="5"
-        getData={getStarship}
-        getImageUrl={getStarshipImage}>
-          <Record field={"model"} label={"Model:"} item={undefined} />
-          <Record field={"length"} label={"Length:"} item={undefined} />
-          <Record field={"costInCredits"} label={"Cost:"} item={undefined} />          
-      </ItemDetails>
-    )
-
     return (
       <ErrorBoundry>
-        <SwapiServiceProvider value={this.swapiService}> 
-          <Header />
+        <SwapiServiceProvider
+          value={this.state.swapiService}
+        >
+          <div className="srardb-app">
+            <Header
+              onServiseChange={this.onServiseChange}
+            />
 
-          <PersonDetaild itemId={11}/>
-          <StarshipDetaild itemId={5}/>
-          <PlanetDetaild itemId={9}/>
-          
-          <PersonList />
+            <RandomPlanet />
 
-          <PlanetList />
-          
-          <StarshipList />
+            <PeoplePage />
+            <PlanetsPage />
+            <StarshipsPage />
+          </div>
         </SwapiServiceProvider>
-
       </ErrorBoundry>
-    )
+    );
   };
 };
