@@ -1,37 +1,39 @@
-import { createStore } from 'redux';
+console.log('hello world')
 
-const reducer = (state = 0, action) => {
+// import { createStore } from 'redux';
 
-  switch (action.type) {
-    case 'INC':
-      return state + 1;
+// const reducer = (state = 0, action) => {
 
-    case 'DEC':
-      return state - 1;
+//   switch (action.type) {
+//     case 'INC':
+//       return state + 1;
 
-    default:
-      return state;
-  }
-};
+//     case 'DEC':
+//       return state - 1;
 
-const store = createStore(reducer);
+//     default:
+//       return state;
+//   }
+// };
 
-document
-  .getElementById('inc')
-  .addEventListener('click', () => {
-    store.dispatch({type: 'INC'});
-  });
+// const store = createStore(reducer);
 
-document
-  .getElementById('dec')
-  .addEventListener('click', () => {
-    store.dispatch({type: 'DEC'});
-  });
+// document
+//   .getElementById('inc')
+//   .addEventListener('click', () => {
+//     store.dispatch({type: 'INC'});
+//   });
 
-const update = () => {
-  document
-    .getElementById('counter')
-    .innerHTML = store.getState();
-};
+// document
+//   .getElementById('dec')
+//   .addEventListener('click', () => {
+//     store.dispatch({type: 'DEC'});
+//   });
 
-store.subscribe(update);
+// const update = () => {
+//   document
+//     .getElementById('counter')
+//     .innerHTML = store.getState();
+// };
+
+// store.subscribe(update);
