@@ -27,4 +27,3 @@ const update = () => {
 
 update();
 store.subscribe(update);
-
