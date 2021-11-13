@@ -17,7 +17,7 @@ import store from "./store";
       <ErrorBoundry>
         <BookstoreServiceProvider value={bookstoreService}>
            <Router>
-             <App />
+             <App bookstoreService={undefined} />
            </Router>
         </BookstoreServiceProvider>
       </ErrorBoundry>
